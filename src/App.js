@@ -15,7 +15,14 @@ export const App = () => {
   return (
     <div className={styles.container}>
       <h1>Крестики-нолики</h1>
-      <GameLayout />
+      <GameLayout currentPlayer={currentPlayer} 
+                  isGameEnded={isGameEnded} 
+                  isDraw={isDraw} 
+                  field={field} 
+                  onSetCurrentPlayer={setCurrentPlayer} 
+                  onSetGameEnded={setIsGameEnded}
+                  onSetDraw={setIsDraw}
+                  onSetField={setField} />
     </div>
   );
 };

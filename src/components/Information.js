@@ -1,9 +1,10 @@
 import { InformationLayout } from './InformationLayout';
 
-export const Information = () => {
+export const Information = (props) => {
+  //console.log(currentPlayer);
   return (
     <div>
-      <InformationLayout />
+      <InformationLayout {...props}/>
     </div>
   )
 }
