@@ -4,8 +4,8 @@ import { GameLayout } from './components/GameLayout';
 import { store } from './store';
 
 export const App = () => {
-  store.subscribe(() => console.log(store.getState()));
-  store.dispatch({ type: 'counter/incremented' });
+  //store.subscribe(() => console.log(store.getState()));
+  //store.dispatch({ type: 'counter/incremented' });
   const initialState = new Array(9).fill('');
 
   let [currentPlayer, setCurrentPlayer] = useState('X');

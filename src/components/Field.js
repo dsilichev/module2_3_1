@@ -1,5 +1,6 @@
 import { FieldLayout } from './FieldLayout';
 import PropTypes from 'prop-types';
+import {store} from '../store';
 
 const WIN_PATTERNS = [
   [0, 1, 2],
@@ -41,15 +42,17 @@ export const Field = ({
     }
 
     const newField = [...field];
-    newField[index] = currentPlayer;
+    newField[index] = store.getState().currentPlayer;
     onSetField(newField);
 
     if (isCheckWin(newField, currentPlayer) || isCheckDraw(newField, isWin)) {
       onSetIsWin(true);
       return null;
     }
-
-    onSetCurrentPlayer((prevState) => (prevState === 'X' ? '0' : 'X'));
+    store.dispatch({type: 'CHANGE_PLAYER'});
+    // const usubscribe = store.subscribe(() => console.log(store.getState().currentPlayer));
+    // //onSetCurrentPlayer((prevState) => (prevState === 'X' ? '0' : 'X'));
+    // usubscribe();
   };
 
   const handleNewGameButton = () => {
