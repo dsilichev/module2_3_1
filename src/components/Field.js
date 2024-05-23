@@ -23,6 +23,7 @@ export const Field = ({
   onSetIsDraw,
   onSetCurrentPlayer,
 }) => {
+  
   //console.log(props);
   const isCheckWin = (field, currentPlayer) => {
     return WIN_PATTERNS.some((pattern) =>
@@ -32,7 +33,8 @@ export const Field = ({
 
   const isCheckDraw = (field, isWin) => {
     if (!field.some((fieldItem) => fieldItem === '' && !isWin)) {
-      onSetIsDraw(true);
+      //onSetIsDraw(true);
+      store.dispatch({type: 'CHANGE_DRAW_STATE', payload: true});
     }
   };
 
@@ -46,7 +48,8 @@ export const Field = ({
     onSetField(newField);
 
     if (isCheckWin(newField, currentPlayer) || isCheckDraw(newField, isWin)) {
-      onSetIsWin(true);
+      //onSetIsWin(true);
+      store.dispatch({type: 'CHANGE_WIN_STATE', payload: true});
       return null;
     }
     store.dispatch({type: 'CHANGE_PLAYER'});
@@ -57,8 +60,10 @@ export const Field = ({
 
   const handleNewGameButton = () => {
     onSetField(initialState);
-    onSetIsWin(false);
-    onSetIsDraw(false);
+    //onSetIsWin(false);
+    //onSetIsDraw(false);
+    store.dispatch({type: 'CHANGE_WIN_STATE', payload: false});
+    store.dispatch({type: 'CHANGE_DRAW_STATE', payload: false});
   };
 
   return (
