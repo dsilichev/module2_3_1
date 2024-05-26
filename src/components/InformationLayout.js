@@ -1,5 +1,4 @@
 import styles from '../app.module.css';
-import PropTypes from 'prop-types';
 import { store } from '../store';
 
 export const InformationLayout = () => {
@@ -9,10 +8,4 @@ export const InformationLayout = () => {
       {isDraw ? 'Ничья' : (isWin ? 'Победил ' : 'Ходит ') + currentPlayer}
     </div>
   );
-};
-
-InformationLayout.propTypes = {
-  currentPlayer: PropTypes.string,
-  isWin: PropTypes.bool,
-  isDraw: PropTypes.bool,
 };

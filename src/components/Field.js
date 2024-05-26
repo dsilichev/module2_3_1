@@ -1,5 +1,4 @@
 import { FieldLayout } from './FieldLayout';
-import PropTypes from 'prop-types';
 import {store} from '../store';
 
 const WIN_PATTERNS = [
@@ -13,18 +12,8 @@ const WIN_PATTERNS = [
   [2, 4, 6], // Варианты побед по диагонали
 ];
 
-export const Field = ({
-  initialState,
-  currentPlayer,
-  isWin,
-  field,
-  onSetField,
-  onSetIsWin,
-  onSetIsDraw,
-  onSetCurrentPlayer,
-}) => {
+export const Field = () => {
   
-  //console.log(props);
   const isCheckWin = (field, currentPlayer) => {
     return WIN_PATTERNS.some((pattern) =>
       pattern.every((cellIDX) => field[cellIDX] === currentPlayer),
@@ -33,35 +22,30 @@ export const Field = ({
 
   const isCheckDraw = (field, isWin) => {
     if (!field.some((fieldItem) => fieldItem === '' && !isWin)) {
-      //onSetIsDraw(true);
       store.dispatch({type: 'CHANGE_DRAW_STATE', payload: true});
     }
   };
 
   const handleClickCell = (index) => {
-    if (isWin || field[index]) {
+    
+    if (store.getState().isWin || store.getState().field[index]) {
       return null;
     }
 
-    const newField = [...field];
+    const newField = [...store.getState().field];
     newField[index] = store.getState().currentPlayer;
-    onSetField(newField);
 
-    if (isCheckWin(newField, currentPlayer) || isCheckDraw(newField, isWin)) {
-      //onSetIsWin(true);
+    store.dispatch({type: 'SET_NEW_FIELD', payload: newField});
+
+    if (isCheckWin(newField, store.getState().currentPlayer) || isCheckDraw(newField, store.getState().isWin)) {
       store.dispatch({type: 'CHANGE_WIN_STATE', payload: true});
       return null;
     }
     store.dispatch({type: 'CHANGE_PLAYER'});
-    // const usubscribe = store.subscribe(() => console.log(store.getState().currentPlayer));
-    // //onSetCurrentPlayer((prevState) => (prevState === 'X' ? '0' : 'X'));
-    // usubscribe();
   };
 
   const handleNewGameButton = () => {
-    onSetField(initialState);
-    //onSetIsWin(false);
-    //onSetIsDraw(false);
+    store.dispatch({type: 'SET_NEW_FIELD', payload: new Array(9).fill('')});
     store.dispatch({type: 'CHANGE_WIN_STATE', payload: false});
     store.dispatch({type: 'CHANGE_DRAW_STATE', payload: false});
   };
@@ -71,19 +55,8 @@ export const Field = ({
       <FieldLayout
         handleClickCell={handleClickCell}
         handleNewGameButton={handleNewGameButton}
-        field={field}
+        field={store.getState().field}
       />
     </div>
   );
-};
-
-Field.propTypes = {
-  initialState: PropTypes.array,
-  currentPlayer: PropTypes.string,
-  isWin: PropTypes.bool,
-  field: PropTypes.array,
-  onSetField: PropTypes.func,
-  onSetIsWin: PropTypes.func,
-  onSetIsDraw: PropTypes.func,
-  onSetCurrentPlayer: PropTypes.func,
 };

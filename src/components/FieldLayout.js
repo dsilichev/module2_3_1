@@ -1,12 +1,12 @@
 import styles from '../app.module.css';
 import PropTypes from 'prop-types';
+import {store} from '../store';
 
-export const FieldLayout = ({ field, handleClickCell, handleNewGameButton }) => {
-  //console.log(props.field);
+export const FieldLayout = ({ handleClickCell, handleNewGameButton }) => {
   return (
     <>
       <div className={styles.Fields}>
-        {field.map((fieldItem, index) => (
+        {store.getState().field.map((fieldItem, index) => (
           <div
             key={index}
             className={styles.FieldItem}
@@ -24,7 +24,6 @@ export const FieldLayout = ({ field, handleClickCell, handleNewGameButton }) => 
 };
 
 FieldLayout.propTypes = {
-  field: PropTypes.array,
   handleClickCell: PropTypes.func,
   handleNewGameButton: PropTypes.func,
 };
