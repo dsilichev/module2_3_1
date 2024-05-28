@@ -1,8 +1,12 @@
 import styles from '../app.module.css';
-import { store } from '../store';
+import { useSelector } from 'react-redux';
+import { selectPlayer, selectWinState, selectDrawState } from '../selectors';
 
 export const InformationLayout = () => {
-  const { currentPlayer, isWin, isDraw } = store.getState();
+  const currentPlayer = useSelector(selectPlayer);
+  const isWin = useSelector(selectWinState);
+  const isDraw  =useSelector(selectDrawState);
+
   return (
     <div className={styles.Information}>
       {isDraw ? 'Ничья' : (isWin ? 'Победил ' : 'Ходит ') + currentPlayer}

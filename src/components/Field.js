@@ -1,5 +1,8 @@
 import { FieldLayout } from './FieldLayout';
-import {store} from '../store';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectPlayer, selectWinState, selectField } from '../selectors';
+import { RESET_PLAYER, changePlayer, changeDrawState, changeWinState, setNewField } from '../actions';
+import { initialFieldState, initialGameState } from '../reducers';
 
 const WIN_PATTERNS = [
   [0, 1, 2],
@@ -13,7 +16,12 @@ const WIN_PATTERNS = [
 ];
 
 export const Field = () => {
-  
+  const dispatch = useDispatch();
+
+  const currentPlayer = useSelector(selectPlayer);
+  const isWin = useSelector(selectWinState);
+  const field = useSelector(selectField);
+
   const isCheckWin = (field, currentPlayer) => {
     return WIN_PATTERNS.some((pattern) =>
       pattern.every((cellIDX) => field[cellIDX] === currentPlayer),
@@ -22,32 +30,32 @@ export const Field = () => {
 
   const isCheckDraw = (field, isWin) => {
     if (!field.some((fieldItem) => fieldItem === '' && !isWin)) {
-      store.dispatch({type: 'CHANGE_DRAW_STATE', payload: true});
+      dispatch(changeDrawState(true));
     }
   };
 
   const handleClickCell = (index) => {
-    
-    if (store.getState().isWin || store.getState().field[index]) {
+    if (isWin || field[index]) {
       return null;
     }
 
-    const newField = [...store.getState().field];
-    newField[index] = store.getState().currentPlayer;
+    const newField = [...field];
+    newField[index] = currentPlayer;
 
-    store.dispatch({type: 'SET_NEW_FIELD', payload: newField});
+    dispatch(setNewField(newField));
 
-    if (isCheckWin(newField, store.getState().currentPlayer) || isCheckDraw(newField, store.getState().isWin)) {
-      store.dispatch({type: 'CHANGE_WIN_STATE', payload: true});
+    if (isCheckWin(newField, currentPlayer) || isCheckDraw(newField, isWin)) {
+      dispatch(changeWinState(true));
       return null;
     }
-    store.dispatch({type: 'CHANGE_PLAYER'});
+    dispatch(changePlayer(currentPlayer));
   };
 
   const handleNewGameButton = () => {
-    store.dispatch({type: 'SET_NEW_FIELD', payload: new Array(9).fill('')});
-    store.dispatch({type: 'CHANGE_WIN_STATE', payload: false});
-    store.dispatch({type: 'CHANGE_DRAW_STATE', payload: false});
+    dispatch(setNewField(initialFieldState.field));
+    dispatch(changeWinState(initialGameState.isWin));
+    dispatch(changeDrawState(initialGameState.isDraw));
+    dispatch(RESET_PLAYER);
   };
 
   return (
@@ -55,7 +63,6 @@ export const Field = () => {
       <FieldLayout
         handleClickCell={handleClickCell}
         handleNewGameButton={handleNewGameButton}
-        field={store.getState().field}
       />
     </div>
   );
