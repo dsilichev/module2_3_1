@@ -1,9 +1,15 @@
+import { Component } from 'react';
 import { InformationLayout } from './InformationLayout';
+export class Information extends Component {
+  constructor(props) {
+    super(props);
+  }
 
-export const Information = () => {
-  return (
-    <div>
-      <InformationLayout />
-    </div>
-  );
-};
+  render() {
+    return (
+      <div>
+        <InformationLayout />
+      </div>
+    );
+  }
+}
