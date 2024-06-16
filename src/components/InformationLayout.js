@@ -1,4 +1,3 @@
-import styles from '../app.module.css';
 import { connect } from 'react-redux';
 import { Component } from 'react';
 
@@ -9,7 +8,7 @@ export class InformationLayoutContainer extends Component {
 
   render() {
     return (
-      <div className={styles.Information}>
+      <div className="mb-5 flex items-center justify-center">
         {this.props.isDraw
           ? 'Ничья'
           : (this.props.isWin ? 'Победил ' : 'Ходит ') + this.props.currentPlayer}

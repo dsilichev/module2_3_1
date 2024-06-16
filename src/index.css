@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .fields {
+		margin-bottom: 30px;
+		display: grid;
+		grid-template-rows: 60px 60px 60px;
+		grid-template-columns: 60px 60px 60px;
+		gap: 3px;
+		border: 1px solid black;
+	}
+	.fieldItem {
+		border: 1px solid black;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 32px;
+	}
+}
+
 :root {
 	--accent-color-hue: 236;
 	--accent-color-saturation: 100%;

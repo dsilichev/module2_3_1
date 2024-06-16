@@ -10,19 +10,19 @@ export class FieldLayoutContainer extends Component {
   render() {
     return (
       <>
-        <div className={styles.Fields}>
+        <div className="fields">
           {this.props.field.map((fieldItem, index) => (
             <div
               key={index}
-              className={styles.FieldItem}
+              className="fieldItem"
               onClick={() => this.props.handleClickCell(index)}
             >
               {fieldItem}
             </div>
           ))}
         </div>
-        <div className={styles.ButtonWrapper}>
-          <button onClick={this.props.handleNewGameButton}>Начать заново</button>
+        <div className="flex items-center justify-center">
+          <button className='border-solid border border-black px-5 rounded-sm' onClick={this.props.handleNewGameButton}>Начать заново</button>
         </div>
       </>
     );

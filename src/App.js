@@ -1,6 +1,6 @@
 import { Component } from 'react';
-import styles from './app.module.css';
 import { GameLayout } from './components/GameLayout';
+
 export class App extends Component {
   constructor(props) {
     super(props);
@@ -8,7 +8,7 @@ export class App extends Component {
 
   render() {
     return (
-      <div className={styles.App}>
+      <div className="flex flex-col items-center">
         <h1>Крестики-нолики</h1>
         <GameLayout />
       </div>
